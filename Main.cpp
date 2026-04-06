@@ -69,3 +69,31 @@ public:
         return "USR" + to_string(++userCounter);
     }
 };
+int IDGenerator::bookCounter = 1000;
+int IDGenerator::userCounter = 1000;
+
+// Validation functions
+class Validator {
+public:
+    static bool isValidPhoneNumber(const string& phone) {
+        // Check if phone number has 10 digits and starts with 98
+        regex pattern("^98[0-9]{8}$");
+        return regex_match(phone, pattern);
+    }
+    
+    static bool isValidPrice(double price) {
+        return price >= 0;
+    }
+    
+    static bool isValidYear(int year) {
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    int currentYear = 1900 + ltm->tm_year;
+
+    return year >= 1800 && year <= currentYear;
+}
+    static bool isValidCopies(int copies) {
+        return copies > 0;
+    }
+};    
+
