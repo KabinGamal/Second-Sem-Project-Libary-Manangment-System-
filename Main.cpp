@@ -110,4 +110,7 @@ enum class BookStatus {
     OVERDUE
 };
 
+const double FINE_PER_DAY = 10.0; // RS per day
+const int MAX_BORROW_DAYS = 14;
+const int MAX_BOOKS_PER_USER = 5;
 
