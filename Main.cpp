@@ -60,3 +60,12 @@ class IDGenerator {
 private:
     static int bookCounter;
     static int userCounter;
+public:
+    static string generateBookID() {
+        return "BK" + to_string(++bookCounter);
+    }
+    
+    static string generateUserID() {
+        return "USR" + to_string(++userCounter);
+    }
+};
