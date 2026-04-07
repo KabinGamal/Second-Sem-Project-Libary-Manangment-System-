@@ -163,3 +163,13 @@ public:
     UserRole role;
     double totalFine; // in RS
     bool isActive;
+    User(string uname, string pwd, string em, string ph, UserRole r) {
+        userID = IDGenerator::generateUserID();
+        username = uname;
+        password = pwd;
+        email = em;
+        phone = ph;
+        role = r;
+        totalFine = 0.0;
+        isActive = true;
+    }
