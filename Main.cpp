@@ -136,3 +136,16 @@ public:
         availableCopies = copies;
         price = p;
     }
+
+     void display() const {
+        cout << "=========================================" << endl;
+        cout << "ID: " << bookID << endl;
+        cout << "Title: " << title << endl;
+        cout << "Author: " << author << endl;
+        cout << "ISBN: " << isbn << endl;
+        cout << "Category: " << category << endl;
+        cout << "Year: " << publicationYear << endl;
+        cout << "Available: " << availableCopies << "/" << totalCopies << endl;
+        cout << "Price: RS " << fixed << setprecision(2) << price << endl;
+        cout << "=========================================" << endl;
+    }
