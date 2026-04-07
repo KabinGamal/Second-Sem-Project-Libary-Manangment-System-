@@ -125,5 +125,14 @@ public:
     int totalCopies;
     int availableCopies;
     double price; // in RS
-    
-
+    Book(string t, string a, string i, string cat, int year, int copies, double p) {
+        bookID = IDGenerator::generateBookID();
+        title = t;
+        author = a;
+        isbn = i;
+        category = cat;
+        publicationYear = year;
+        totalCopies = copies;
+        availableCopies = copies;
+        price = p;
+    }
