@@ -263,3 +263,48 @@ struct SearchCriteria {
         availableOnly = false;
     }
 };
+// Library Management System
+class LibraryManagementSystem {
+private:
+    vector<Book> books;
+    vector<User> users;
+    vector<Transaction> transactions;
+    User* currentUser;
+    
+    // Helper methods
+    int findBookByID(string bookID) {
+        for (int i = 0; i < books.size(); i++) {
+            if (books[i].bookID == bookID) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    int findUserByID(string userID) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users[i].userID == userID) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    int findUserByUsername(string username) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users[i].username == username) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    vector<Transaction*> getActiveTransactions(string userID) {
+        vector<Transaction*> result;
+        for (Transaction& trans : transactions) {
+            if (trans.userID == userID && !trans.isReturned) {
+                result.push_back(&trans);
+            }
+        }
+        return result;
+    }
