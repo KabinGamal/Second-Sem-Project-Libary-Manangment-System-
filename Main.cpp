@@ -345,3 +345,8 @@ private:
         }
         return false;
     }
+    public:
+    LibraryManagementSystem() {
+        currentUser = nullptr;
+        initializeSampleData();
+    }
