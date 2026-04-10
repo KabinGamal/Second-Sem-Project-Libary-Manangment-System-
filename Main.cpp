@@ -308,3 +308,40 @@ private:
         }
         return result;
     }
+    int getBorrowedBooksCount(string userID) {
+        int count = 0;
+        for (Transaction& trans : transactions) {
+            if (trans.userID == userID && !trans.isReturned) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    bool hasOverdueBooks(string userID) {
+        for (Transaction& trans : transactions) {
+            if (trans.userID == userID && !trans.isReturned && 
+                DateUtils::isDatePassed(trans.dueDate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    bool hasBorrowedBooks(string userID) {
+        for (Transaction& trans : transactions) {
+            if (trans.userID == userID && !trans.isReturned) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    bool isBookBorrowed(string bookID) {
+        for (Transaction& trans : transactions) {
+            if (trans.bookID == bookID && !trans.isReturned) {
+                return true;
+            }
+        }
+        return false;
+    }
