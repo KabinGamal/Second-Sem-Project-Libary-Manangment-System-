@@ -221,3 +221,29 @@ public:
         fineAmount = 0.0;
         isReturned = false;
     }
+    void calculateFine() {
+        if (!isReturned && DateUtils::isDatePassed(dueDate)) {
+            int daysOverdue = DateUtils::daysBetween(dueDate, DateUtils::getCurrentDate());
+            fineAmount = daysOverdue * FINE_PER_DAY;
+        }
+    }
+    
+    void returnBook() {
+        returnDate = DateUtils::getCurrentDate();
+        calculateFine();
+        isReturned = true;
+    }
+    
+    void display() const {
+        cout << "=========================================" << endl;
+        cout << "TransactionID: " << transactionID << endl;
+        cout << "UserID: " << userID << endl;
+        cout << "BookID: " << bookID << endl;
+        cout << "Borrow Date: " << borrowDate << endl;
+        cout << "Due Date: " << dueDate << endl;
+        cout << "Return Date: " << (returnDate.empty() ? "Not Returned" : returnDate) << endl;
+        cout << "Fine: RS " << fixed << setprecision(2) << fineAmount << endl;
+        cout << "Status: " << (isReturned ? "Returned" : "Borrowed") << endl;
+        cout << "=========================================" << endl;
+    }
+};
