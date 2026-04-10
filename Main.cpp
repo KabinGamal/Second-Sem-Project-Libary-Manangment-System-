@@ -247,3 +247,19 @@ public:
         cout << "=========================================" << endl;
     }
 };
+// Search Criteria Structure
+struct SearchCriteria {
+    string title;
+    string author;
+    int publicationYear;
+    string category;
+    bool availableOnly;
+    
+    SearchCriteria() {
+        title = "";
+        author = "";
+        publicationYear = 0;
+        category = "";
+        availableOnly = false;
+    }
+};
