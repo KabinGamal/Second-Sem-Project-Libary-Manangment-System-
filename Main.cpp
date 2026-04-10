@@ -198,3 +198,26 @@ public:
         cout << "=========================================" << endl;
     }
 };
+// Transaction Class
+class Transaction {
+public:
+    string transactionID;
+    string userID;
+    string bookID;
+    string borrowDate;
+    string dueDate;
+    string returnDate;
+    double fineAmount; // in RS
+    bool isReturned;
+    
+    Transaction(string uid, string bid) {
+        static int transCounter = 1;
+        transactionID = "TR" + to_string(transCounter++);
+        userID = uid;
+        bookID = bid;
+        borrowDate = DateUtils::getCurrentDate();
+        dueDate = DateUtils::addDays(borrowDate, MAX_BORROW_DAYS);
+        returnDate = "";
+        fineAmount = 0.0;
+        isReturned = false;
+    }
