@@ -351,7 +351,7 @@ private:
         initializeSampleData();
     }
     
-       
+    { 
         
         // Add sample users with valid phone numbers starting with 98
         users.push_back(User("admin", "admin123", "admin@library.com", "9812345670", UserRole::ADMIN));
@@ -377,3 +377,33 @@ private:
             currentUser = nullptr;
         }
     }
+
+    // Book Management
+    void addBook() {
+        if (!currentUser || (currentUser->role != UserRole::ADMIN && currentUser->role != UserRole::LIBRARIAN)) {
+            cout << "Access denied! Admin or Librarian privileges required." << endl;
+            return;
+        }
+        
+        string title, author, isbn, category;
+        int year, copies;
+        double price;
+        
+        cout << "\n=== ADD NEW BOOK ===" << endl;
+        cout << "Title: ";
+        cin.ignore();
+        getline(cin, title);
+        cout << "Author: ";
+        getline(cin, author);
+        cout << "ISBN: ";
+        getline(cin, isbn);
+        cout << "Category: ";
+        getline(cin, category);
+        
+        // Validate year
+        while (true) {
+            cout << "Publication Year: ";
+            cin >> year;
+            if (Validator::isValidYear(year)) break;
+            cout << "Invalid year! Please enter a valid publication year (1800-current year)." << endl;
+        }
