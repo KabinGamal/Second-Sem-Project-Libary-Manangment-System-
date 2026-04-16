@@ -350,3 +350,20 @@ private:
         currentUser = nullptr;
         initializeSampleData();
     }
+    
+       
+        
+        // Add sample users with valid phone numbers starting with 98
+        users.push_back(User("admin", "admin123", "admin@library.com", "9812345670", UserRole::ADMIN));
+        users.push_back(User("librarian", "lib123", "librarian@library.com", "9823456781", UserRole::LIBRARIAN));
+        users.push_back(User("john_doe", "user123", "john@email.com", "9834567892", UserRole::MEMBER));
+        users.push_back(User("jane_smith", "user123", "jane@email.com", "9845678903", UserRole::MEMBER));
+    }
+    // Authentication System
+    bool login(string username, string password) {
+        int userIndex = findUserByUsername(username);
+        if (userIndex != -1 && users[userIndex].authenticate(password)) {
+            currentUser = &users[userIndex];
+            cout << "Login successful! Welcome, " << currentUser->username << " (" << currentUser->getRoleString() << ")" << endl;
+            return true;
+        }
