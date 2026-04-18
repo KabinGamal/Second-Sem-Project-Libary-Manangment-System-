@@ -433,4 +433,23 @@ private:
             cout << "Access denied! Admin or Librarian privileges required." << endl;
             return;
         }
+        string bookID;
+        cout << "\n=== DELETE BOOK ===" << endl;
+        cout << "Enter Book ID to delete: ";
+        cin >> bookID;
+        
+        int bookIndex = findBookByID(bookID);
+        if (bookIndex == -1) {
+            cout << "Book not found!" << endl;
+            return;
+        }
+        
+        Book& bookToDelete = books[bookIndex];
+        
+        // Check if book is currently borrowed
+        if (isBookBorrowed(bookID)) {
+            cout << "Cannot delete book! This book is currently borrowed by users." << endl;
+            cout << "Please wait until all copies are returned before deleting the book." << endl;
+            return;
+        }
 
