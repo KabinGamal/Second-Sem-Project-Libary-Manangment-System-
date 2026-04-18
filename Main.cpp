@@ -522,3 +522,29 @@ SearchCriteria criteria;
         vector<Book*> results;
         for (Book& book : books) {
             bool matches = true;
+            if (!criteria.title.empty() && book.title.find(criteria.title) == string::npos) {
+                matches = false;
+            }
+            if (!criteria.author.empty() && book.author.find(criteria.author) == string::npos) {
+                matches = false;
+            }
+            if (!criteria.category.empty() && book.category != criteria.category) {
+                matches = false;
+            }
+            if (criteria.publicationYear != 0 && book.publicationYear != criteria.publicationYear) {
+                matches = false;
+            }
+            if (criteria.availableOnly && !book.isAvailable()) {
+                matches = false;
+            }
+            
+            if (matches) {
+                results.push_back(&book);
+            }
+        }
+        
+        cout << "\nSEARCH RESULTS (" << results.size() << " books found)" << endl;
+        for (Book* book : results) {
+            book->display();
+        }
+    }
