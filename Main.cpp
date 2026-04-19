@@ -658,4 +658,25 @@ SearchCriteria criteria;
                 cout << "Payment successful! Remaining fine: RS " << currentUser->totalFine << endl;
             } else {
                 cout << "Invalid amount!" << endl;
+            }} else {
+            cout << "No fines to pay!" << endl;
+        }
+    }
+    
+    void viewOverdueBooks() {
+        if (!currentUser) {
+            cout << "Please login first!" << endl;
+            return;
+        }
+        
+        cout << "\n=== OVERDUE BOOKS ===" << endl;
+        bool found = false;
+        
+        for (Transaction& trans : transactions) {
+            if (trans.userID == currentUser->userID && !trans.isReturned && 
+                DateUtils::isDatePassed(trans.dueDate)) {
+                trans.calculateFine();
+                trans.display();
+                found = true;
             }
+        }
