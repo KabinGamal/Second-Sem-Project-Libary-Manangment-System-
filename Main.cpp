@@ -548,3 +548,22 @@ SearchCriteria criteria;
             book->display();
         }
     }
+    void displayAllBooks() {
+        cout << "\n=== ALL BOOKS IN LIBRARY ===" << endl;
+        cout << "Total books: " << books.size() << endl;
+        for (Book& book : books) {
+            book.display();
+        }
+    }
+    
+    void displayBookCategories() {
+        map<string, int> categoryCount;
+        for (Book& book : books) {
+            categoryCount[book.category]++;
+        }
+        
+        cout << "\n=== BOOK CATEGORIES ===" << endl;
+        for (auto& category : categoryCount) {
+            cout << category.first << ": " << category.second << " books" << endl;
+        }
+    }
