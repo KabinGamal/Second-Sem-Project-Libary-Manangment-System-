@@ -680,3 +680,49 @@ SearchCriteria criteria;
                 found = true;
             }
         }
+        if (!found) {
+            cout << "No overdue books found." << endl;
+        }
+    }
+    
+    // User Management (Admin only)
+    void registerUser() {
+        if (!currentUser || currentUser->role != UserRole::ADMIN) {
+            cout << "Only admins can register new users!" << endl;
+            return;
+        }
+        
+        string username, password, email, phone;
+        int roleChoice;
+        
+        cout << "\n=== REGISTER NEW USER ===" << endl;
+        cout << "Username: ";
+        cin >> username;
+        cout << "Password: ";
+        cin >> password;
+        cout << "Email: ";
+        cin >> email;
+        
+        // Validate phone number
+        while (true) {
+            cout << "Phone (10 digits starting with 98): ";
+            cin >> phone;
+            if (Validator::isValidPhoneNumber(phone)) break;
+            cout << "Invalid phone number! Please enter a 10-digit number starting with 98." << endl;
+        }
+        
+        cout << "Role (1=Admin, 2=Librarian, 3=Member): ";
+        cin >> roleChoice;
+        
+        UserRole role;
+        switch(roleChoice) {
+            case 1: role = UserRole::ADMIN; break;
+            case 2: role = UserRole::LIBRARIAN; break;
+            case 3: role = UserRole::MEMBER; break;
+            default: 
+                cout << "Invalid role!" << endl;
+                return;
+        }
+        
+        users.push_back(User(username, password, email, phone, role));
+        cout << "User registered successfully! User ID: " << users.back().userID << endl;
