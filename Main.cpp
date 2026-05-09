@@ -726,3 +726,142 @@ SearchCriteria criteria;
         
         users.push_back(User(username, password, email, phone, role));
         cout << "User registered successfully! User ID: " << users.back().userID << endl;
+        }
+    
+    void viewAllUsers() {
+        if (!currentUser || currentUser->role != UserRole::ADMIN) {
+            cout << "Only admins can view all users!" << endl;
+            return;
+        }
+        
+        cout << "\n=== ALL USERS ===" << endl;
+        cout << "Total users: " << users.size() << endl;
+        for (User& user : users) {
+            user.display();
+        }
+    }
+    
+    void deleteUser() {
+        if (!currentUser || currentUser->role != UserRole::ADMIN) {
+            cout << "Only admins can delete users!" << endl;
+            return;
+        }
+        
+        string userID;
+        cout << "\n=== DELETE USER ===" << endl;
+        cout << "Enter User ID to delete: ";
+        cin >> userID;
+        
+        // Prevent self-deletion
+        if (userID == currentUser->userID) {
+            cout << "You cannot delete your own account while logged in!" << endl;
+            return;
+        }
+        
+        int userIndex = findUserByID(userID);
+        if (userIndex == -1) {
+            cout << "User not found!" << endl;
+            return;
+        }
+        
+        User& userToDelete = users[userIndex];
+        
+        // Check if user has borrowed books
+        if (hasBorrowedBooks(userID)) {
+            cout << "Cannot delete user! User has borrowed books that need to be returned first." << endl;
+            cout << "Please ensure all books are returned before deleting the user." << endl;
+            return;
+        }
+        
+        // Confirm deletion
+        cout << "\nUser to be deleted:" << endl;
+        userToDelete.display();
+        
+        char confirmation;
+        cout << "Are you sure you want to delete this user? (y/n): ";
+        cin >> confirmation;
+        
+        if (confirmation == 'y' || confirmation == 'Y') {
+            // Remove user from vector
+            users.erase(users.begin() + userIndex);
+            cout << "User deleted successfully!" << endl;
+        } else {
+            cout << "User deletion cancelled." << endl;
+        }
+    }
+    
+    // Dashboard and Reports
+    void userDashboard() {
+        if (!currentUser) {
+            cout << "Please login first!" << endl;
+            return;
+        }
+        
+        cout << "\n=== USER DASHBOARD ===" << endl;
+        currentUser->display();
+        
+        vector<Transaction*> activeTrans = getActiveTransactions(currentUser->userID);
+        cout << "\nBORROWED BOOKS (" << activeTrans.size() << " books)" << endl;
+        if (activeTrans.empty()) {
+            cout << "No books currently borrowed." << endl;
+        } else {
+            for (Transaction* trans : activeTrans) {
+                trans->display();
+            }
+        }
+    }
+    
+    void adminDashboard() {
+        if (!currentUser || currentUser->role != UserRole::ADMIN) {
+            cout << "Admin access required!" << endl;
+            return;
+        }
+        
+        cout << "\n=== ADMIN DASHBOARD ===" << endl;
+        cout << "Library Statistics:" << endl;
+        cout << "• Total Books: " << books.size() << endl;
+        cout << "• Total Users: " << users.size() << endl;
+        cout << "• Total Transactions: " << transactions.size() << endl;
+        
+        // Calculate total fines
+        double totalFines = 0;
+        int activeBorrows = 0;
+        for (User& user : users) {
+            totalFines += user.totalFine;
+        }
+        for (Transaction& trans : transactions) {
+            if (!trans.isReturned) activeBorrows++;
+        }
+        
+        cout << "• Active Borrows: " << activeBorrows << endl;
+        cout << "• Total Fines Collected: RS " << totalFines << endl;
+        
+        // Most popular books
+        map<string, int> bookBorrowCount;
+        for (Transaction& trans : transactions) {
+            bookBorrowCount[trans.bookID]++;
+        }
+        
+        if (!bookBorrowCount.empty()) {
+            string popularBookID = max_element(bookBorrowCount.begin(), bookBorrowCount.end(),
+                [](const pair<string, int>& a, const pair<string, int>& b) {
+                    return a.second < b.second;
+                })->first;
+            
+            int bookIndex = findBookByID(popularBookID);
+            if (bookIndex != -1) {
+                cout << "• Most Popular Book: " << books[bookIndex].title << " (Borrowed " << bookBorrowCount[popularBookID] << " times)" << endl;
+            }
+        }
+        
+        // Category distribution
+        map<string, int> categoryStats;
+        for (Book& book : books) {
+            categoryStats[book.category]++;
+        }
+        
+        cout << "\nCategory Distribution:" << endl;
+        for (auto& category : categoryStats) {
+            cout << "• " << category.first << ": " << category.second << " books" << endl;
+        }
+    }
