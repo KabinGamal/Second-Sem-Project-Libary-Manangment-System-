@@ -991,3 +991,9 @@ SearchCriteria criteria;
         showLoginMenu();
     }
 };
+
+int main() {
+    LibraryManagementSystem library;
+    library.run();
+    return 0;
+}
