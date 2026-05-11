@@ -954,3 +954,40 @@ SearchCriteria criteria;
             }
         } while (choice != 0 && currentUser != nullptr);
     }
+    void showLoginMenu() {
+        int choice;
+        do {
+            cout << "\n=== LIBRARY MANAGEMENT SYSTEM ===" << endl;
+            cout << "1. Login" << endl;
+            cout << "2. Exit" << endl;
+            cout << "Choose option: ";
+            cin >> choice;
+            
+            switch(choice) {
+                case 1: {
+                    string username, password;
+                    cout << "Username: ";
+                    cin >> username;
+                    cout << "Password: ";
+                    cin >> password;
+                    if (login(username, password)) {
+                        showMainMenu();
+                    }
+                    break;
+                }
+                case 2: 
+                    cout << "Thank you for using Library Management System!" << endl;
+                    break;
+                default: 
+                    cout << "Invalid choice!" << endl;
+            }
+        } while (choice != 2);
+    }
+    
+    void run() {
+        cout << "==========================================" << endl;
+        cout << "      LIBRARY MANAGEMENT SYSTEM          " << endl;
+        cout << "==========================================" << endl;
+        showLoginMenu();
+    }
+};
