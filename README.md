@@ -21,5 +21,5 @@ It allows users to manage books, issue/return them, and maintain structured reco
 2. Encapsulation
 3. Functions
 4. Arrays / Vectors
-5. File Handling (if used)
-6. Conditional & Looping Statements
+5. Inheritance
+7. Conditional & Looping Statements 
