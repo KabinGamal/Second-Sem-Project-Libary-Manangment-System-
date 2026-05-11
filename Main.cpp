@@ -862,6 +862,95 @@ SearchCriteria criteria;
         
         cout << "\nCategory Distribution:" << endl;
         for (auto& category : categoryStats) {
-            cout << "• " << category.first << ": " << category.second << " books" << endl;
+            cout << "• " << category.first << ": " << category.second << " books" <<endl;
         }
+    }
+    // Menu System
+    void showMainMenu() {
+        if (!currentUser) {
+            showLoginMenu();
+            return;
+        }
+        
+        int choice;
+        do {
+            cout << "\n=== MAIN MENU ===" << endl;
+            cout << "Welcome, " << currentUser->username << " (" << currentUser->getRoleString() << ")" << endl;
+            cout << "1. Search Books" << endl;
+            cout << "2. View All Books" << endl;
+            cout << "3. View Book Categories" << endl;
+            cout << "4. User Dashboard" << endl;
+            
+            if (currentUser->role == UserRole::MEMBER) {
+                cout << "5. Borrow Book" << endl;
+                cout << "6. Return Book" << endl;
+                cout << "7. Pay Fine" << endl;
+                cout << "8. View Overdue Books" << endl;
+            }
+            
+            if (currentUser->role == UserRole::ADMIN || currentUser->role == UserRole::LIBRARIAN) {
+                cout << "9. Add New Book" << endl;
+                cout << "10. Delete Book" << endl;
+            }
+            
+            if (currentUser->role == UserRole::ADMIN) {
+                cout << "11. Register New User" << endl;
+                cout << "12. View All Users" << endl;
+                cout << "13. Delete User" << endl;
+                cout << "14. Admin Dashboard" << endl;
+            }
+            
+            cout << "0. Logout" << endl;
+            cout << "Choose option: ";
+            cin >> choice;
+            
+            switch(choice) {
+                case 1: searchBooks(); break;
+                case 2: displayAllBooks(); break;
+                case 3: displayBookCategories(); break;
+                case 4: userDashboard(); break;
+                case 5: 
+                    if (currentUser->role == UserRole::MEMBER) borrowBook(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 6: 
+                    if (currentUser->role == UserRole::MEMBER) returnBook(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 7: 
+                    if (currentUser->role == UserRole::MEMBER) payFine(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 8: 
+                    if (currentUser->role == UserRole::MEMBER) viewOverdueBooks(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 9: 
+                    if (currentUser->role == UserRole::ADMIN || currentUser->role == UserRole::LIBRARIAN) addBook(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 10: 
+                    if (currentUser->role == UserRole::ADMIN || currentUser->role == UserRole::LIBRARIAN) deleteBook(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 11: 
+                    if (currentUser->role == UserRole::ADMIN) registerUser(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 12: 
+                    if (currentUser->role == UserRole::ADMIN) viewAllUsers(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 13: 
+                    if (currentUser->role == UserRole::ADMIN) deleteUser(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 14: 
+                    if (currentUser->role == UserRole::ADMIN) adminDashboard(); 
+                    else cout << "Invalid choice!" << endl;
+                    break;
+                case 0: logout(); break;
+                default: cout << "Invalid choice!" << endl;
+            }
+        } while (choice != 0 && currentUser != nullptr);
     }
